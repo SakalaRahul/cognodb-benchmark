@@ -1,0 +1,41 @@
+# All services are resource-capped to match CognoDB's free tier:
+# burstable 0.5 vCPU, 256 MB RAM, 1 GB disk.
+# This is required by the assignment's fairness rule (section on same resources).
+
+services:
+  memgraph:
+    image: memgraph/memgraph:2.20.1
+    container_name: bench_memgraph
+    ports:
+      - "7687:7687"
+    mem_limit: 256m
+    cpus: 0.5
+    command: ["--storage-properties-on-edges=false"]
+    volumes:
+      - memgraph_data:/var/lib/memgraph
+
+  arangodb:
+    image: arangodb:3.12.2
+    container_name: bench_arangodb
+    environment:
+      - ARANGO_ROOT_PASSWORD=changeme
+    ports:
+      - "8529:8529"
+    mem_limit: 256m
+    cpus: 0.5
+    volumes:
+      - arango_data:/var/lib/arangodb3
+
+  janusgraph:
+    image: janusgraph/janusgraph:1.0.0
+    container_name: bench_janusgraph
+    ports:
+      - "8182:8182"
+    mem_limit: 256m
+    cpus: 0.5
+    environment:
+      - JANUS_PROPS_TEMPLATE=berkeleyje-lucene
+
+volumes:
+  memgraph_data:
+  arango_data:

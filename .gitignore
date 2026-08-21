@@ -1,0 +1,10 @@
+.env
+venv/
+__pycache__/
+*.pyc
+data/nodes.csv
+data/edges.csv
+results/*.json
+report/results_tables.md
+report/charts/*.png
+.DS_Store
